@@ -12,6 +12,7 @@ import spoon.support.DefaultCoreFactory;
 import spoon.support.QueueProcessingManager;
 import spoon.support.StandardEnvironment;
 import spoon.support.compiler.jdt.JDTBasedSpoonCompiler;
+import vv.spoon.logger.CountMethodCall;
 import vv.spoon.logger.LogWriter;
 import vv.spoon.logger.ShutdownHookLog;
 import vv.spoon.processor.SimpleJavaOutputProcessor;
@@ -93,7 +94,7 @@ public class Instru {
         File dir = new File(tmpDir+"/"+src+"/vv/spoon/logger");
         FileUtils.forceMkdir(dir);
         String packagePath = System.getProperty("user.dir")+"/src/main/java/vv/spoon/logger/";
-        FileUtils.copyFileToDirectory(new File(packagePath + LogWriter.class.getSimpleName() + ".java"), dir);
+        FileUtils.copyFileToDirectory(new File(packagePath + CountMethodCall.class.getSimpleName() + ".java"), dir);
         FileUtils.copyFileToDirectory(new File(packagePath + ShutdownHookLog.class.getSimpleName() + ".java"), dir);
     }
 }

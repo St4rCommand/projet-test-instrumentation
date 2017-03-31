@@ -1,5 +1,6 @@
 package vv.spoon;
 
+import vv.spoon.processor.CountProcessor;
 import vv.spoon.processor.LogProcessor;
 
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.io.IOException;
 public class MainExample {
 
     public static void main(String[] args) throws IOException {
-        Instru instru = new Instru(args[0], args[1], new LogProcessor());
+        Instru instru = new Instru(args[0], args[1], new CountProcessor());
 
         //copy the project (args[0]) in the output directory (args[1])
         instru.initOutputDirectory();
