@@ -5,6 +5,7 @@ import spoon.reflect.cu.CompilationUnit;
 import spoon.reflect.cu.SourceCodeFragment;
 import spoon.reflect.cu.SourcePosition;
 import spoon.reflect.reference.CtExecutableReference;
+import vv.spoon.processor.LogProcessor;
 
 /**
  * Created by romain on 28/03/17.
@@ -16,9 +17,6 @@ public class CountProcessor extends LogProcessor {
         try {
             Class type = candidate.getTarget().getType().getActualClass();
             CtExecutableReference executable = candidate.getExecutable();
-
-            System.out.println(candidate.getArguments().toString());
-            System.out.println(isContentValid(candidate.getArguments().toString()));
 
 
             if(type.equals(java.io.PrintStream.class)

@@ -1,14 +1,15 @@
 package vv.spoon;
 
-import vv.spoon.processor.LogProcessor;
+import vv.spoon.processor.CountProcessor;
 
 import java.io.IOException;
 
-
-public class MainExample {
-
+/**
+ * Created by romain on 03/04/17.
+ */
+public class MainCounter {
     public static void main(String[] args) throws IOException {
-        Instru instru = new Instru(args[0], args[1], new LogProcessor());
+        InstruCounter instru = new InstruCounter(args[0], args[1], new CountProcessor());
 
         //copy the project (args[0]) in the output directory (args[1])
         instru.initOutputDirectory();
@@ -16,5 +17,4 @@ public class MainExample {
         //instrumentalize the java code of output directory with LogProcessor
         instru.instru();
     }
-
 }

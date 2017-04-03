@@ -13,50 +13,45 @@ import spoon.support.QueueProcessingManager;
 import spoon.support.StandardEnvironment;
 import spoon.support.compiler.jdt.JDTBasedSpoonCompiler;
 import vv.spoon.logger.CountMethodCall;
+import vv.spoon.logger.ShutdownHookCounter;
 import vv.spoon.logger.ShutdownHookLog;
-import vv.spoon.processor.CountProcessor;
 
 import java.io.File;
 import java.io.IOException;
 
 
-public class Main {
+public class InstruCounter {
     protected String outputDirectory;
     protected String projectDirectory;
-    protected String srcDirectory;
+    protected String srcDirectory = "src/main/java";
+    Processor processor;
 
 
-    public static void main(String[] args) throws IOException {
-        Main main = new Main(args[0], args[1], args[2]);
-        main.initOutputDirectory();
-        main.instru();
-    }
-
-    public Main(String projectDirectory, String srcDirectory, String outputDirectory) {
+    public InstruCounter(String projectDirectory, String outputDirectory, Processor processor) {
         this.projectDirectory = projectDirectory;
-        this.srcDirectory = srcDirectory;
         this.outputDirectory = outputDirectory;
+        this.processor = processor;
     }
-
 
     public void instru() throws IOException {
-        String src = projectDirectory + System.getProperty("path.separator") + srcDirectory;
-        String out = outputDirectory + System.getProperty("path.separator") + srcDirectory;
+        String src = projectDirectory + System.getProperty("file.separator") + srcDirectory;
+        String out = outputDirectory + System.getProperty("file.separator") + srcDirectory;
 
+        //initialize spoon
         Factory factory = initSpoon(src);
 
-
-
-        Processor processor = new CountProcessor();
+        //apply the processor
         applyProcessor(factory, processor);
 
-
+        //write the intrumentalize java code into the output directory
         Environment env = factory.getEnvironment();
         env.useSourceCodeFragments(true);
-        applyProcessor(factory, new SimpleJavaOutputProcessor(new File(out), new FragmentDrivenJavaPrettyPrinter(env)));
+        applyProcessor(factory, new vv.spoon.processor.SimpleJavaOutputProcessor(new File(out), new FragmentDrivenJavaPrettyPrinter(env)));
 
+        //copy LogWriter and ShutdownHookCounter into the output directory
         copyLoggerFile(outputDirectory, srcDirectory);
     }
+
 
     protected void initOutputDirectory() throws IOException {
         File dir = new File(outputDirectory);
@@ -64,6 +59,7 @@ public class Main {
         FileUtils.copyDirectory(new File(projectDirectory), dir);
     }
 
+    //initialize spoon and create the ast
     protected Factory initSpoon(String srcDirectory) {
         StandardEnvironment env = new StandardEnvironment();
         env.setVerbose(true);
@@ -97,6 +93,6 @@ public class Main {
         FileUtils.forceMkdir(dir);
         String packagePath = System.getProperty("user.dir")+"/src/main/java/vv/spoon/logger/";
         FileUtils.copyFileToDirectory(new File(packagePath + CountMethodCall.class.getSimpleName() + ".java"), dir);
-        FileUtils.copyFileToDirectory(new File(packagePath + ShutdownHookLog.class.getSimpleName() + ".java"), dir);
+        FileUtils.copyFileToDirectory(new File(packagePath + ShutdownHookCounter.class.getSimpleName() + ".java"), dir);
     }
 }

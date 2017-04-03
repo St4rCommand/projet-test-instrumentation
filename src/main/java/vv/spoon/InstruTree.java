@@ -12,22 +12,22 @@ import spoon.support.DefaultCoreFactory;
 import spoon.support.QueueProcessingManager;
 import spoon.support.StandardEnvironment;
 import spoon.support.compiler.jdt.JDTBasedSpoonCompiler;
-import vv.spoon.logger.*;
-import vv.spoon.processor.SimpleJavaOutputProcessor;
-
+import vv.spoon.logger.ShutdownHookTree;
+import vv.spoon.logger.TreeBuilder;
+import vv.spoon.logger.TreeNode;
 
 import java.io.File;
 import java.io.IOException;
 
 
-public class Instru {
+public class InstruTree {
     protected String outputDirectory;
     protected String projectDirectory;
     protected String srcDirectory = "src/main/java";
     Processor processor;
 
 
-    public Instru(String projectDirectory, String outputDirectory, Processor processor) {
+    public InstruTree(String projectDirectory, String outputDirectory, Processor processor) {
         this.projectDirectory = projectDirectory;
         this.outputDirectory = outputDirectory;
         this.processor = processor;
@@ -92,7 +92,8 @@ public class Instru {
         File dir = new File(tmpDir+"/"+src+"/vv/spoon/logger");
         FileUtils.forceMkdir(dir);
         String packagePath = System.getProperty("user.dir")+"/src/main/java/vv/spoon/logger/";
-        FileUtils.copyFileToDirectory(new File(packagePath + LogWriter.class.getSimpleName() + ".java"), dir);
-        FileUtils.copyFileToDirectory(new File(packagePath + ShutdownHookLog.class.getSimpleName() + ".java"), dir);
+        FileUtils.copyFileToDirectory(new File(packagePath + TreeBuilder.class.getSimpleName() + ".java"), dir);
+        FileUtils.copyFileToDirectory(new File(packagePath + TreeNode.class.getSimpleName() + ".java"), dir);
+        FileUtils.copyFileToDirectory(new File(packagePath + ShutdownHookTree.class.getSimpleName() + ".java"), dir);
     }
 }

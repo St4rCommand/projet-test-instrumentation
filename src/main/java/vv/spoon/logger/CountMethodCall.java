@@ -27,7 +27,6 @@ public class CountMethodCall {
     }
 
     public static void writeLog() {
-        System.out.println("Enregistrement du fichier");
 
         try {
             PrintWriter writer = getWriter();
@@ -45,7 +44,7 @@ public class CountMethodCall {
 
     protected static PrintWriter getWriter() throws FileNotFoundException {
         if(fileWriter == null) {
-            ShutdownHookLog shutdownHook = new ShutdownHookLog();
+            vv.spoon.logger.ShutdownHookCounter shutdownHook = new vv.spoon.logger.ShutdownHookCounter();
             Runtime.getRuntime().addShutdownHook(shutdownHook);
             fileWriter = new PrintWriter("log");
         }
