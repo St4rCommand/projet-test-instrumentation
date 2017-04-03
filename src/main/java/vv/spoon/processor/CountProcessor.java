@@ -4,11 +4,33 @@ import spoon.reflect.code.CtInvocation;
 import spoon.reflect.cu.CompilationUnit;
 import spoon.reflect.cu.SourceCodeFragment;
 import spoon.reflect.cu.SourcePosition;
+import spoon.reflect.reference.CtExecutableReference;
 
 /**
  * Created by romain on 28/03/17.
  */
 public class CountProcessor extends LogProcessor {
+
+    @Override
+    public boolean isToBeProcessed(CtInvocation candidate) {
+        try {
+            Class type = candidate.getTarget().getType().getActualClass();
+            CtExecutableReference executable = candidate.getExecutable();
+
+            System.out.println(candidate.getArguments().toString());
+            System.out.println(isContentValid(candidate.getArguments().toString()));
+
+
+            if(type.equals(java.io.PrintStream.class)
+                    && isPrint(executable)
+                    && isContentValid(candidate.getArguments().toString())) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     @Override
     public void process(CtInvocation element) {
@@ -26,5 +48,9 @@ public class CountProcessor extends LogProcessor {
 
         SourceCodeFragment after = new SourceCodeFragment(compileUnit.nextLineIndex(sp.getSourceEnd()), snippet, 0);
         compileUnit.addSourceCodeFragment(after);
+    }
+
+    protected boolean isContentValid(String content) {
+        return ! (content.contains("result") || content.contains("error"));
     }
 }
