@@ -13,8 +13,13 @@ public class CountMethodCall {
     private static PrintWriter fileWriter;
     protected static Map<String, Integer> counters = new HashMap();
 
-
     public static void increment(String key) {
+
+        try {
+            getWriter();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         Integer counterValue = 1;
 

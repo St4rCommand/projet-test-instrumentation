@@ -16,6 +16,12 @@ public class TreeBuilder {
 
     public static void beginMethod(String label) {
 
+        try {
+            getWriter();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         TreeNode newNode = new TreeNode();
         newNode.setName(label);
         newNode.setParentTreeNode(currentTreeNode);
