@@ -13,7 +13,6 @@ import spoon.support.QueueProcessingManager;
 import spoon.support.StandardEnvironment;
 import spoon.support.compiler.jdt.JDTBasedSpoonCompiler;
 import vv.spoon.logger.*;
-import vv.spoon.processor.SimpleJavaOutputProcessor;
 
 
 import java.io.File;

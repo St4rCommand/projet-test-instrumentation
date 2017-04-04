@@ -14,7 +14,6 @@ import spoon.support.StandardEnvironment;
 import spoon.support.compiler.jdt.JDTBasedSpoonCompiler;
 import vv.spoon.logger.CountMethodCall;
 import vv.spoon.logger.ShutdownHookCounter;
-import vv.spoon.logger.ShutdownHookLog;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class InstruCounter {
         //write the intrumentalize java code into the output directory
         Environment env = factory.getEnvironment();
         env.useSourceCodeFragments(true);
-        applyProcessor(factory, new vv.spoon.processor.SimpleJavaOutputProcessor(new File(out), new FragmentDrivenJavaPrettyPrinter(env)));
+        applyProcessor(factory, new SimpleJavaOutputProcessor(new File(out), new FragmentDrivenJavaPrettyPrinter(env)));
 
         //copy LogWriter and ShutdownHookCounter into the output directory
         copyLoggerFile(outputDirectory, srcDirectory);
